@@ -1,0 +1,54 @@
+<%- include('partials/header') %>
+
+<main class="wallet-section">
+  <div class="wallet-card">
+    <h3 class="wallet-title"><i class="fab fa-bitcoin"></i> BTC Wallet</h3>
+    
+    <div class="wallet-address">
+      <p><strong>Address:</strong></p>
+      <div class="address-box">
+        <span id="btcAddress">bc1qnkckvxw4y0g5ahv6lvxz727jqpn7kyep0lyq07</span>
+        <button class="copy-btn" onclick="copyToClipboard('btcAddress')">
+          <i class="fas fa-copy"></i> Copy
+        </button>
+      </div>
+    </div>
+
+    <div class="deposit-instructions">
+      <p><i class="fas fa-info-circle"></i> 
+        <span class="warning">Only send Bitcoin (BTC) to this address. Other assets will be lost forever.</span>
+      </p>
+      <p><i class="fas fa-info-circle"></i> 
+        Copy the address above and proceed to your exchange to make a deposit. 
+        Once you’ve made the deposit, please upload a screenshot here.
+      </p>
+    </div>
+
+    <!-- ✅ Upload Screenshot Form -->
+    <form action="/upload-screenshot" method="POST" enctype="multipart/form-data" class="upload-form">
+      <label for="screenshot">Upload Deposit Screenshot:</label>
+      <input type="file" name="screenshot" id="screenshot" accept="image/*" required>
+      <button type="submit" class="upload-btn">
+        <i class="fas fa-upload"></i> Submit Screenshot
+      </button>
+    </form>
+
+    <!-- ✅ Success / Error Message -->
+    <% if (typeof message !== 'undefined' && message) { %>
+      <div class="upload-message">
+        <p><%= message %></p>
+      </div>
+    <% } %>
+  </div>
+</main>
+
+<script>
+  function copyToClipboard(id) {
+    const text = document.getElementById(id).innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      alert('✅ BTC wallet address copied to clipboard!');
+    });
+  }
+</script>
+
+<%- include('partials/footer') %>

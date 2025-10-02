@@ -1,0 +1,71 @@
+<%- include('partials/header') %>
+
+<main class="dashboard">
+  <h2><i class="fas fa-user-circle"></i> Welcome, <%= user.username %>!</h2>
+
+  <section class="summary stats-grid">
+    <div class="card">
+      <h3><i class="fas fa-wallet"></i> Balance</h3>
+      <p>$<%= user.balance.toFixed(2) %></p>
+    </div>
+    <div class="card">
+      <h3><i class="fas fa-chart-line"></i> Live Trades</h3>
+      <p><%= user.liveTrades %></p>
+    </div>
+    <div class="card">
+      <h3><i class="fas fa-arrow-trend-up"></i> Daily Profit</h3>
+      <p>$<%= stats.dailyProfit.toFixed(2) %></p>
+    </div>
+    <div class="card">
+      <h3><i class="fas fa-arrow-trend-down"></i> Daily Loss</h3>
+      <p>$<%= stats.dailyLoss.toFixed(2) %></p>
+    </div>
+    <div class="card">
+      <h3><i class="fas fa-sack-dollar"></i> Total Profit</h3>
+      <p>$<%= stats.totalProfit.toFixed(2) %></p>
+    </div>
+    <div class="card">
+      <h3><i class="fas fa-hand-holding-dollar"></i> Total Loss</h3>
+      <p>$<%= stats.totalLoss.toFixed(2) %></p>
+    </div>
+    <div class="card">
+      <h3><i class="fas fa-list-ol"></i> Total Trades</h3>
+      <p><%= stats.totalTrades %></p>
+    </div>
+    <div class="card">
+      <h3><i class="fas fa-calendar-day"></i> Daily Trades</h3>
+      <p><%= stats.dailyTrades %></p>
+    </div>
+  </section>
+
+  <section class="actions">
+    <a href="/deposit" class="btn"><i class="fas fa-circle-plus"></i> Deposit</a>
+    <a href="/withdraw" class="btn"><i class="fas fa-circle-minus"></i> Withdraw</a>
+  </section>
+
+  <section class="history">
+    <h3><i class="fas fa-clock-rotate-left"></i> Recent Trades</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Type</th>
+          <th>Profit</th>
+          <th>Loss</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% user.trades.forEach(trade => { %>
+          <tr>
+            <td><%= new Date(trade.date).toLocaleDateString() %></td>
+            <td><%= trade.type %></td>
+            <td>$<%= trade.profit.toFixed(2) %></td>
+            <td>$<%= trade.loss.toFixed(2) %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </section>
+</main>
+
+<%- include('partials/footer') %>

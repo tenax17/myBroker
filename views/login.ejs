@@ -1,0 +1,36 @@
+<%- include('partials/header') %>
+
+<div class="form-wrapper">
+  <div class="container">
+    <h2><i class="fas fa-right-to-bracket"></i> Login</h2>
+
+    <% if (error) { %>
+      <div class="error"><i class="fas fa-exclamation-circle"></i> <%= error %></div>
+    <% } %>
+
+    <% if (success) { %>
+      <div class="success"><i class="fas fa-check-circle"></i> <%= success %></div>
+    <% } %>
+
+    <form action="/auth/login" method="POST">
+      <label for="identifier"><i class="fas fa-user"></i> Email or Username</label>
+      <input type="text" id="identifier" name="identifier" placeholder="Enter your email or username" required>
+
+      <label for="password"><i class="fas fa-lock"></i> Password</label>
+      <input type="password" id="password" name="password" required>
+
+      <button type="submit"><i class="fas fa-right-to-bracket"></i> Login</button>
+    </form>
+
+    <div class="auth-links">
+      <p style="text-align: center; margin-top: 15px;">
+        <a href="/auth/forgot"><i class="fas fa-key"></i> Forgot Password?</a>
+      </p>
+      <p style="text-align: center; margin-top: 10px;">
+        Don't have an account? <a href="/auth/register"><i class="fas fa-user-plus"></i> Register here</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,110 @@
+<%- include('../partials/header') %>
+
+<section class="admin-user" style="padding: 2rem;">
+  <h1><i class="fas fa-user-cog"></i> Manage User: <%= user.username || 'N/A' %></h1>
+
+  <!-- 🧑 User Info -->
+  <div class="user-info" style="margin-top: 1rem; line-height: 1.8;">
+    <p><strong><i class="fas fa-envelope"></i> Email:</strong> <%= user.email || 'N/A' %></p>
+    <p><strong><i class="fas fa-wallet"></i> Balance:</strong> $<%= (user.balance || 0).toFixed(2) %></p>
+    <p><strong><i class="fas fa-chart-line"></i> Total Trades:</strong> <%= stats.totalTrades || 0 %></p>
+    <p><strong><i class="fas fa-arrow-up"></i> Profit:</strong> $<%= (stats.totalProfit || 0).toFixed(2) %></p>
+    <p><strong><i class="fas fa-arrow-down"></i> Loss:</strong> $<%= (stats.totalLoss || 0).toFixed(2) %></p>
+  </div>
+
+  <hr>
+
+  <!-- 📸 Deposit Screenshots -->
+  <div class="screenshot-section" style="margin-top: 2rem;">
+    <h3><i class="fas fa-image"></i> Deposit Screenshots</h3>
+    <% if (user.screenshots && user.screenshots.length > 0) { %>
+      <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem;">
+        <% user.screenshots.forEach(s => { %>
+          <div style="flex: 0 0 auto; text-align: center;">
+            <!-- Small thumbnail -->
+            <a href="<%= s.filename %>" target="_blank">
+              <img src="<%= s.filename %>" 
+                   alt="Deposit Screenshot" 
+                   style="width: 100px; height: 100px; object-fit: cover; border: 1px solid #ddd; border-radius: 8px; cursor: pointer;">
+            </a>
+            <p style="font-size: 0.75rem; color: #666; margin-top: 0.25rem;">
+              <%= new Date(s.uploadedAt).toLocaleString() %>
+            </p>
+          </div>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <p style="color: #888; margin-top: 1rem;">No screenshots uploaded.</p>
+    <% } %>
+  </div>
+
+  <hr>
+
+  <!-- 💰 Update Balance / Add Trade -->
+  <div class="forms" style="display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 1rem;">
+    <!-- Update Balance -->
+    <form action="/admin/user/<%= user._id %>/update-balance" method="POST" class="form-block" style="flex: 1; min-width: 250px;">
+      <h3><i class="fas fa-coins"></i> Deposit to Balance</h3>
+      <label>Amount (USDT):</label>
+      <input type="number" name="amount" step="0.01" required>
+      <button type="submit"><i class="fas fa-plus-circle"></i> Update Balance</button>
+    </form>
+
+    <!-- Add Trade -->
+    <form action="/admin/user/<%= user._id %>/add-trade" method="POST" class="form-block" style="flex: 1; min-width: 250px;">
+      <h3><i class="fas fa-arrow-trend-up"></i> Add Trade</h3>
+      <label>Trade Type:</label>
+      <input type="text" name="type" required>
+      <label>Profit ($):</label>
+      <input type="number" name="profit" step="0.01">
+      <label>Loss ($):</label>
+      <input type="number" name="loss" step="0.01">
+      <button type="submit"><i class="fas fa-chart-bar"></i> Add Trade</button>
+    </form>
+  </div>
+
+  <hr>
+
+  <!-- 💸 Withdrawal Requests -->
+  <h3 style="margin-top: 2rem;"><i class="fas fa-money-check-alt"></i> Withdrawal Requests</h3>
+  <table class="withdrawal-table" style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <thead style="background: #f0f0f0;">
+      <tr>
+        <th>Amount ($)</th>
+        <th>Wallet</th>
+        <th>Status</th>
+        <th>Date</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (user.withdrawals && user.withdrawals.length > 0) { %>
+        <% user.withdrawals.forEach((w, index) => { %>
+          <tr style="border-bottom: 1px solid #ddd;">
+            <td><%= w.amount.toFixed(2) %></td>
+            <td><%= w.wallet || 'N/A' %></td>
+            <td><%= w.status %></td>
+            <td><%= new Date(w.date).toLocaleDateString() %></td>
+            <td>
+              <% if (w.status === 'pending') { %>
+                <form action="/admin/withdraw/<%= user._id %>/<%= index %>/approve" method="POST" style="display:inline;">
+                  <button type="submit" style="background-color: #28a745; color: #fff; padding: 6px 12px; border: none; cursor: pointer;">
+                    <i class="fas fa-check-circle"></i> Approve
+                  </button>
+                </form>
+              <% } else { %>
+                <span style="color: green;"><i class="fas fa-check-circle"></i> Approved</span>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr>
+          <td colspan="5">No withdrawal requests.</td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</section>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,60 @@
+<%- include('../partials/header') %>
+
+<main class="main-content" style="padding: 2rem;">
+  <h2 style="margin-bottom: 1.5rem;"><i class="fas fa-chart-line"></i> Dashboard</h2>
+
+  <!-- 🧑 All Users Table -->
+  <div class="table-wrapper" style="overflow-x: auto; margin-bottom: 2rem;">
+    <table class="user-table" style="width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+      <thead style="background-color: #f5f5f5;">
+        <tr>
+          <th style="padding: 12px;"><i class="fas fa-user"></i> Username</th>
+          <th style="padding: 12px;"><i class="fas fa-envelope"></i> Email</th>
+          <th style="padding: 12px;"><i class="fas fa-dollar-sign"></i> Balance</th>
+          <th style="padding: 12px;"><i class="fas fa-chart-area"></i> Live Trades</th>
+          <th style="padding: 12px;"><i class="fas fa-image"></i> Screenshot</th>
+          <th style="padding: 12px;"><i class="fas fa-tools"></i> Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (users && users.length > 0) { %>
+          <% users.forEach(user => { %>
+            <tr style="border-bottom: 1px solid #eee;">
+              <td style="padding: 12px;"><%= user.username %></td>
+              <td style="padding: 12px;"><%= user.email %></td>
+              <td style="padding: 12px;">$<%= user.balance.toFixed(2) %></td>
+              <td style="padding: 12px;"><%= user.liveTrades || 0 %></td>
+
+              <!-- 📸 Screenshot -->
+              <td style="padding: 12px;">
+                <% if (user.screenshot) { %>
+                  <a href="/uploads/screenshots/<%= user.screenshot %>" target="_blank">
+                    <img src="/uploads/screenshots/<%= user.screenshot %>" alt="screenshot"
+                         style="max-width: 100px; max-height: 100px; border-radius: 5px;">
+                  </a>
+                <% } else { %>
+                  <span style="color: #888;">No screenshot</span>
+                <% } %>
+              </td>
+
+              <!-- ⚙️ Manage -->
+              <td style="padding: 12px;">
+                <a href="/admin/user/<%= user._id %>" class="btn-manage" style="text-decoration: none; color: #007bff;">
+                  <i class="fas fa-user-cog"></i> Manage
+                </a>
+              </td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr>
+            <td colspan="6" style="padding: 12px; text-align: center; color: #888;">
+              No users found
+            </td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</main>
+
+<%- include('../partials/footer') %>

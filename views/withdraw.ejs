@@ -1,0 +1,63 @@
+<%- include('partials/header') %> 
+
+<div class="form-wrapper">
+  <main class="withdraw">
+    <h2><i class="fas fa-money-bill-transfer"></i> Withdraw Funds</h2>
+    <p class="subtitle">Enter the amount and wallet address to withdraw your profits.</p>
+
+    <form action="/withdraw" method="POST" class="withdraw-form">
+      <div class="form-group">
+        <label for="amount"><i class="fas fa-dollar-sign"></i> Amount (USD):</label>
+        <input type="number" name="amount" id="amount" min="1" max="<%= user.balance %>" required>
+      </div>
+
+      <div class="form-group">
+        <label for="wallet"><i class="fas fa-wallet"></i> Your Wallet Address:</label>
+        <input type="text" name="wallet" id="wallet" required>
+        <small class="instruction"><i class="fas fa-exclamation-circle"></i> Please ensure this is a <strong>BEP20 (Binance Smart Chain)</strong> wallet address. Sending to other networks may result in loss of funds.</small>
+      </div>
+
+      <div class="form-group">
+        <label for="currency"><i class="fas fa-coins"></i> Currency:</label>
+        <select name="currency" id="currency" required>
+          <option value="USDT">USDT</option>
+          <option value="BTC">BTC</option>
+        </select>
+      </div>
+
+      <button type="submit" class="withdraw-btn"><i class="fas fa-paper-plane"></i> Request Withdrawal</button>
+    </form>
+
+    <% if (withdrawals && withdrawals.length > 0) { %>
+      <section class="history">
+        <h3><i class="fas fa-clock-rotate-left"></i> Withdrawal History</h3>
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Amount</th>
+              <th>Wallet</th>
+              <th>Currency</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% withdrawals.forEach(w => { %>
+              <tr>
+                <td><%= new Date(w.date).toLocaleDateString() %></td>
+                <td>$<%= w.amount.toFixed(2) %></td>
+                <td><%= w.wallet %></td>
+                <td><%= w.currency %></td>
+                <td>
+                  <span class="status <%= w.status.toLowerCase() %>"><%= w.status %></span>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </section>
+    <% } %>
+  </main>
+</div>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,47 @@
+<%- include('../partials/header') %>
+
+<main class="admin-section">
+  <h2>📸 Deposit Screenshots</h2>
+
+  <% if (users.length === 0) { %>
+    <p>No deposit screenshots have been uploaded yet.</p>
+  <% } else { %>
+    <table class="deposits-table">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Email</th>
+          <th>Screenshots</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% users.forEach(u => { %>
+          <tr>
+            <td><%= u.username || "N/A" %></td>
+            <td><%= u.email %></td>
+            <td>
+              <% if (u.screenshots && u.screenshots.length > 0) { %>
+                <% u.screenshots.forEach(s => { %>
+                  <div style="margin-bottom:10px;">
+                    <a href="<%= s.filename %>" target="_blank">
+                      <img src="<%= s.filename %>" 
+                           alt="Screenshot" 
+                           style="max-width:120px; border:1px solid #ccc; border-radius:6px;">
+                    </a>
+                    <p style="font-size:0.8rem; color:#555;">
+                      Uploaded: <%= new Date(s.uploadedAt).toLocaleString() %>
+                    </p>
+                  </div>
+                <% }) %>
+              <% } else { %>
+                <em>No screenshots</em>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</main>
+
+<%- include('../partials/footer') %>

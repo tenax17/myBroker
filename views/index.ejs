@@ -1,0 +1,57 @@
+<%- include('./partials/header') %>
+
+<div class="container trading-page">
+  
+  <!-- Trading Section -->
+  <section class="trade-section">
+    <h1 class="page-title">Live Crypto Trading</h1>
+    <p class="subtitle">Trade BTC/USDT with real-time market data</p>
+
+    <!-- Action Buttons -->
+    <div class="trade-actions">
+      <button class="trade-btn long">
+        <i class="fas fa-arrow-up"></i> Buy
+      </button>
+      <button class="trade-btn short">
+        <i class="fas fa-arrow-down"></i> Sell
+      </button>
+    </div>
+  </section>
+
+  <!-- Chart Section -->
+  <section class="chart-section">
+    <div class="chart-header">
+      <h2>BTC/USDT Live Chart</h2>
+      <span class="chart-status">Market Open</span>
+    </div>
+    <div class="chart-container">
+      <div id="tradingview_chart" style="height:600px; width:100%;"></div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <h3>Start Trading Today</h3>
+    <p>Join thousands of traders buying and selling crypto securely.</p>
+    <div class="cta-buttons">
+      <a href="/auth/register" class="button primary">
+        <i class="fas fa-user-plus"></i> Get Started
+      </a>
+      <a href="/auth/login" class="button secondary">
+        <i class="fas fa-sign-in-alt"></i> Login
+      </a>
+    </div>
+  </section>
+
+</div>
+
+<!-- Withdrawal popup -->
+<div id="withdrawal-popup"></div>
+
+<%- include('./partials/footer') %>
+
+<!-- TradingView SDK -->
+<script src="https://s3.tradingview.com/tv.js"></script>
+
+<!-- Main JS -->
+<script src="/js/main.js"></script>
