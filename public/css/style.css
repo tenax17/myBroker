@@ -43,12 +43,25 @@ body.dark-mode label {
 body.dark-mode .navbar,
 body.dark-mode .container,
 body.dark-mode .card,
+body.dark-mode .form-wrapper,
 body.dark-mode table {
   background-color: #1e1e1e;
   color: #f1f1f1;
 }
 body.dark-mode table th {
   background-color: #2a2a2a;
+}
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode select {
+  background-color: #2a2a2a;
+  color: #f1f1f1;
+  border: 1px solid #555;
+}
+body.dark-mode input:focus,
+body.dark-mode textarea:focus,
+body.dark-mode select:focus {
+  border-color: #007bff;
 }
 
 /* ===== Theme Toggle Button ===== */
@@ -189,7 +202,7 @@ button:hover, .btn:hover, a.button:hover {
 .card p { font-size: 24px; font-weight: bold; }
 .card:hover { transform: translateY(-6px) scale(1.02); }
 
-/* ===== Table ===== */
+/* ===== Tables ===== */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -208,6 +221,50 @@ table th, table td {
 table th {
   background-color: #f2f2f2;
   font-weight: bold;
+}
+
+/* ===== Forms ===== */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+label {
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+}
+input, textarea, select {
+  padding: 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 6px rgba(0,123,255,0.3);
+}
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+input[type="submit"], button[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+input[type="submit"]:hover, button[type="submit"]:hover {
+  background-color: #0056b3;
 }
 
 /* ===== Error Message ===== */
@@ -235,14 +292,14 @@ footer {
 
 /* ===== Responsive Adjustments ===== */
 @media (max-width: 768px) {
-  .container, .wallet-card, .withdraw {
+  .container, .wallet-card, .withdraw, .form-wrapper {
     padding: var(--space-md);
   }
   .stats-grid { grid-template-columns: 1fr; }
   table, th, td { font-size: 0.85rem; }
 }
 @media (max-width: 480px) {
-  button, .btn, a.button { width: 100%; }
+  button, .btn, a.button, input[type="submit"] { width: 100%; }
 }
 
 /* ===== Animation ===== */
