@@ -266,24 +266,27 @@ router.get('/logout', (req, res) => {
 // GET: Initialize Admin
 router.get('/init-admin', async (req, res) => {
   try {
+    if (process.env.NODE_ENV === "production" && req.query.token !== process.env.ADMIN_INIT_TOKEN) {
+      return res.status(403).send('❌ Unauthorized');
+    }
+
     const existingAdmin = await User.findOne({ email: process.env.ADMIN_EMAIL });
     if (existingAdmin) return res.send('✅ Admin already exists.');
 
     const admin = new User({
       username: process.env.ADMIN_USERNAME,
       email: process.env.ADMIN_EMAIL,
-      password: process.env.ADMIN_PASSWORD, // 👈 Plain password here (will be hashed by schema)
+      password: process.env.ADMIN_PASSWORD, // gets hashed by schema
       role: 'admin',
       isAdmin: true
     });
 
-    await admin.save(); // 👈 Triggers pre-save password hash
+    await admin.save();
     return res.send('✅ Admin created successfully.');
   } catch (err) {
     console.error('Admin creation error:', err);
     return res.status(500).send('❌ Failed to create admin.');
   }
 });
-
 
 module.exports = router;
